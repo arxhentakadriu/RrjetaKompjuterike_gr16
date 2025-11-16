@@ -10,7 +10,7 @@ args = parser.parse_args()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((args.host, args.port))
 
-# identifikimi
+
 s.sendall(f"HELLO {args.user} {args.password}\n".encode())
 welcome = s.recv(4096).decode()
 print(welcome.strip())
@@ -23,12 +23,12 @@ try:
         if not cmd:
             continue
 
-        # kontrollo privilegjet
+       
         if cmd.startswith(('/upload', '/delete', '/download')) and role != 'full':
             print("Read-only client — nuk ke leje për këtë komandë.")
             continue
 
-        # komanda /upload
+       
         if cmd.startswith('/upload') and role == 'full':
             parts = cmd.split(maxsplit=1)
             if len(parts) != 2:
@@ -46,7 +46,6 @@ try:
             print(f"Upload i kryer: {filename}")
             continue
 
-        # komanda /download
         if cmd.startswith('/download') and role == 'full':
             parts = cmd.split(maxsplit=1)
             if len(parts) != 2:
@@ -58,7 +57,7 @@ try:
             print(resp.decode(errors='ignore'))
             continue
 
-        # te gjitha komanda te tjera
+        
         s.sendall((cmd + '\n').encode())
         timeout = 0.5 if role == 'full' else 2.0
         s.settimeout(timeout)
