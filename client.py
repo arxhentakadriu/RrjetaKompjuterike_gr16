@@ -9,6 +9,11 @@ args = parser.parse_args()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((args.host, args.port))
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ae663ea7ad429964bdd135e6f5d9c9cf20a4729e
 s.sendall(f"HELLO {args.user} {args.password}\n".encode())
 
 welcome = b""
@@ -48,10 +53,18 @@ try:
         if not cmd:
             continue
 
+<<<<<<< HEAD
+=======
+       
+>>>>>>> ae663ea7ad429964bdd135e6f5d9c9cf20a4729e
         if cmd.startswith(('/upload', '/delete', '/download')) and role != 'full':
             print("Read-only client — nuk ke leje për këtë komandë.")
             continue
 
+<<<<<<< HEAD
+=======
+       
+>>>>>>> ae663ea7ad429964bdd135e6f5d9c9cf20a4729e
         if cmd.startswith('/upload') and role == 'full':
             parts = cmd.split(maxsplit=1)
             if len(parts) != 2:
@@ -113,6 +126,10 @@ try:
             print(f"Downloaded {filename} ({len(received)} bytes)")
             continue
 
+<<<<<<< HEAD
+=======
+        
+>>>>>>> ae663ea7ad429964bdd135e6f5d9c9cf20a4729e
         s.sendall((cmd + '\n').encode())
         timeout = 0.5 if role == "full" else 2.0
         start_time = time.time()
