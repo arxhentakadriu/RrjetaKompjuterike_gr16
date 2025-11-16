@@ -1,0 +1,6 @@
+{
+  "device1": { "password": "pass1", "role": "full" },
+  "device2": { "password": "pass2", "role": "read" },
+  "device3": { "password": "pass3", "role": "read" },
+  "device4": { "password": "pass4", "role": "read" }
+}
