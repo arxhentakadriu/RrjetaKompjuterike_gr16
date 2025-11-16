@@ -1,4 +1,19 @@
-Ky projekt përdor modelin client‑server për rrjetë kompjuterike. 
-Ka file si server.py, client.py, admin_client.py dhe main.py, që sugjerojnë se mundësohet komunikimi mes klientëve të zakonshëm dhe një klient administrativ.
-Projekti ka të bëjë me socket‑programim, ku serveri pranon lidhje dhe klientët dërgojnë dhe marrin mesazhe.
-Është një shembull praktik i rrjetave kompjuterike ku përdoren baza të thjeshta për komunikim dhe menaxhim përdoruesish në një rrjet lokal.
+TCP File Server – Multi-Device Secure File Management System
+
+Ky projekt implementon një sistem të plotë server–klient mbi protokollin TCP, i cili lejon pajisje të ndryshme të lidhen me serverin, të autentifikohen dhe të kryejnë operacione të ndryshme mbi skedarë.
+
+Projekti përfshin:
+
+Server TCP me multi-threading
+
+Autentifikim me username/password
+
+Role të ndryshme përdoruesish (full / read)
+
+Menaxhim skedarësh (upload, download, read, delete, info, search, list)
+
+Statistika të serverit në kohë reale
+
+Klient normal dhe klient administrativ
+
+Logim mesazhesh, menaxhim i ngarkesës dhe timeout të lidhjeve
