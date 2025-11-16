@@ -19,7 +19,8 @@ Klient normal dhe klient administrativ
 Logim mesazhesh, timeout dhe kontroll i ngarkesës
 
 **1. Startimi i Serverit**
-python3 server.py --host 127.0.0.1 --port 9000
+
+python server.py 
 
 **2. Autentifikimi dhe Rolet**
 
@@ -38,25 +39,37 @@ read – vetëm lexim dhe informacion
 
 Startohet me:
 
-python3 client.py --host 127.0.0.1 --port 9000 --user device1 --password pass1
+python client.py --host 127.0.0.1 --port 9000 --user device2 --password pass2
+
+python client.py --host 127.0.0.1 --port 9000 --user device3 --password pass3
+
+python client.py --host 127.0.0.1 --port 9000 --user device4 --password pass4
 
 Komandat për të gjithë përdoruesit
+
 /list               – liston skedarët në server
+
 /read <file>        – lexon përmbajtjen e skedarit
+
 /info <file>        – jep madhësinë dhe datën e krijimit/modifikimit
+
 /search <keyword>   – kërkon skedarë sipas fjalës kyçe
 
 Komandat për rolin FULL
+
 /upload <file>      – ngarkon një skedar në server
+
 /download <file>    – shkarkon një skedar nga serveri
+
 /delete <file>      – fshin një skedar nga serveri
 
 Statistikat e serverit
+
 STATS               – shfaq statistika të serverit në kohë reale
 
 **4. Klienti Administrativ**
 
 Startohet me:
 
-python3 admin_client.py --host 127.0.0.1 --port 9000 --user device1 --password pass1
+python admin_client.py --host 127.0.0.1 --port 9000 --user device1 --password pass1
 
