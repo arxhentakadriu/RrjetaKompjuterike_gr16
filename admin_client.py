@@ -65,7 +65,7 @@ try:
                 continue
             print("Received READY_META")
 
-            meta = json.dumps({'filename': filename, 'size': filesize})
+            meta = json.dumps({'filename': filename, 'size': len(data)})
             s.sendall((meta + '\n').encode())
             print("Sent metadata, waiting READY_DATA...")
 
