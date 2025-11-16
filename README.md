@@ -4,12 +4,19 @@ Ky projekt implementon një sistem të plotë server–klient mbi protokollin TC
 
 Projekti përfshin:
 •	Server TCP me multi-threading
+
 •	Autentifikim me username/password
+
 •	Role të ndryshme përdoruesish (full / read)
+
 •	Menaxhim skedarësh (upload, download, read, delete, info, search, list)
+
 •	Statistika të serverit në kohë reale
+
 •	Klient normal dhe klient administrativ
+
 •	Logim mesazhesh, menaxhim i ngarkesës dhe timeout të lidhjeve
+
 
 **1. Si të startohet serveri**
 python3 server.py --host 127.0.0.1 --port 9000
