@@ -1,39 +1,62 @@
 **TCP File Server – Multi-Device Secure File Management System**
 
-Ky projekt implementon një sistem të plotë server–klient mbi protokollin TCP, i cili lejon pajisje të ndryshme të lidhen me serverin, të autentifikohen dhe të kryejnë operacione të ndryshme mbi skedarë.
+Ky projekt implementon një sistem të plotë Server–Klient mbi protokollin TCP, i cili lejon pajisje të shumta të lidhen me serverin, të autentifikohen dhe të kryejnë operacione të ndryshme me skedarë në mënyrë të sigurt.
 
-Projekti përfshin:
-•	Server TCP me multi-threading
+**Veçoritë Kryesore**
 
-•	Autentifikim me username/password
+Server TCP me multi-threading
 
-•	Role të ndryshme përdoruesish (full / read)
+Autentifikim me username/password
 
-•	Menaxhim skedarësh (upload, download, read, delete, info, search, list)
+Role përdoruesish (full dhe read)
 
-•	Statistika të serverit në kohë reale
+Menaxhim skedarësh: upload, download, read, delete, info, search, list
 
-•	Klient normal dhe klient administrativ
+Statistika të serverit në kohë reale
 
-•	Logim mesazhesh, menaxhim i ngarkesës dhe timeout të lidhjeve
+Klient normal dhe klient administrativ
 
+Logim mesazhesh, timeout dhe kontroll i ngarkesës
 
-**1. Si të startohet serveri**
+**1. Startimi i Serverit**
 python3 server.py --host 127.0.0.1 --port 9000
-**2. Autentifikimi dhe rolet**
-Autentifikimi bëhet me: **HELLO <username> <password>**
-**3. Klienti normal – përdorimi**
+
+**2. Autentifikimi dhe Rolet**
+
+Autentifikimi bëhet me komandën:
+
+HELLO <username> <password>
+
+
+Roli caktohet automatikisht nga serveri:
+
+full – akses i plotë mbi skedarët
+
+read – vetëm lexim dhe informacion
+
+**3. Klienti Normal**
+
+Startohet me:
+
 python3 client.py --host 127.0.0.1 --port 9000 --user device1 --password pass1
-Komandat e klientit:
+
+Komandat për të gjithë përdoruesit
 /list               – liston skedarët në server
-/read <file>        – lexon përmbajtjen
-/info <file>        – jep madhësinë, datën e krijimit/modifikimit
-/search <keyword>   – kërkon skedarë sipas emrit
-Komandat për "full" role:
-/upload <file>
-/download <file>
-/delete <file>
-Për statistika të serverit:
-STATS
-**4. Klienti administrativ (admin_client.py)**
+/read <file>        – lexon përmbajtjen e skedarit
+/info <file>        – jep madhësinë dhe datën e krijimit/modifikimit
+/search <keyword>   – kërkon skedarë sipas fjalës kyçe
+
+Komandat për rolin FULL
+/upload <file>      – ngarkon një skedar në server
+/download <file>    – shkarkon një skedar nga serveri
+/delete <file>      – fshin një skedar nga serveri
+
+Statistikat e serverit
+STATS               – shfaq statistika të serverit në kohë reale
+
+**4. Klienti Administrativ**
+
+Startohet me:
+
 python3 admin_client.py --host 127.0.0.1 --port 9000 --user device1 --password pass1
+
