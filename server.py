@@ -1,4 +1,3 @@
-
 import socket
 import threading
 import json
@@ -7,7 +6,6 @@ import os
 import time
 from pathlib import Path
 from datetime import datetime, timezone
-
 
 HOST = '0.0.0.0'
 PORT = 9000
@@ -21,7 +19,6 @@ STATS_FILE = Path('server_stats.txt')
 
 STORAGE_DIR.mkdir(exist_ok=True)
 lock = threading.Lock()
-
 clients = {}
 
 if not USERS_FILE.exists():
@@ -121,16 +118,13 @@ def handle_info(f):
     return json.dumps({'size': s.st_size, 'created': s.st_ctime, 'modified': s.st_mtime}, indent=2)
 
 def handle_upload(conn, filename):
-
     send_response(conn, b"READY_META\n")
-
     try:
         meta_line = receive_line(conn, timeout=10)
         if not meta_line:
             return "Upload failed: no metadata received."
         meta = json.loads(meta_line.decode())
         size = int(meta.get('size', 0))
-
         send_response(conn, b"READY_DATA\n")
         file_bytes = receive_all(conn, size)
         if len(file_bytes) < size:
@@ -162,7 +156,6 @@ def handle_download(conn, filename):
         send_response(conn, f"ERROR during download: {e}\n".encode())
 
 def client_thread(conn, addr):
-
     conn.settimeout(1.0)
     with lock:
         clients[conn] = {
@@ -229,7 +222,6 @@ def client_thread(conn, addr):
 
             text = data.decode(errors='ignore').strip()
 
-
             if text.upper() == 'STATS':
                 s = json.dumps(collect_stats(), indent=2)
                 send_response(conn, s.encode() + b'\n')
@@ -277,7 +269,6 @@ def client_thread(conn, addr):
                     if not args:
                         send_response(conn, b"Usage: /upload <filename>\n")
                     else:
-                        # handle upload protocol
                         resp = handle_upload(conn, args[0])
                         send_response(conn, resp.encode() + b'\n')
                 elif cmd == '/download':
@@ -288,7 +279,6 @@ def client_thread(conn, addr):
                 else:
                     send_response(conn, b"Unknown command\n")
             else:
-                # plain text -> echo + log
                 send_response(conn, f"ECHO: {text}\n".encode())
                 log_message(f"{clients[conn]['username']}@{addr}: {text}")
 
@@ -317,18 +307,6 @@ def accept_loop(sock):
         t = threading.Thread(target=client_thread, args=(conn, addr), daemon=True)
         t.start()
 
-def admin_console():
-    while True:
-        try:
-            cmd = input()
-        except EOFError:
-            break
-        if cmd.upper() == 'STATS':
-            print(json.dumps(collect_stats(), indent=2))
-        elif cmd.upper() == 'QUIT':
-            print("Shutting down.")
-            os._exit(0)
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--host', default=HOST)
@@ -339,9 +317,7 @@ def main():
     s.bind((args.host, args.port))
     s.listen()
     print(f"Server running on {args.host}:{args.port}")
-    # start stats saver and admin console
     threading.Thread(target=save_stats_periodically, daemon=True).start()
-    threading.Thread(target=admin_console, daemon=True).start()
     accept_loop(s)
 
 if __name__ == '__main__':
