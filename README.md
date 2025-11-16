@@ -1,75 +1,10 @@
-**TCP File Server – Multi-Device Secure File Management System**
+TCP File Server – Multi-Device File Management System
 
-Ky projekt implementon një sistem të plotë Server–Klient mbi protokollin TCP, i cili lejon pajisje të shumta të lidhen me serverin, të autentifikohen dhe të kryejnë operacione të ndryshme me skedarë në mënyrë të sigurt.
+Ky projekt implementon një sistem Server–Klient mbi TCP, ku klientët mund të lidhen me serverin, të autentifikohen dhe të kryejnë operacione mbi skedarët në mënyrë të kontrolluar sipas role-ve të tyre. Serveri përdor multi-threading, autentifikim me username/password, role përdoruesish (full dhe read), menaxhim skedarësh (upload, download, read, delete, info, search, list), statistika në kohë reale dhe logim të mesazheve. Klientët mund të jenë read-only ose me akses të plotë (full).
 
-**Veçoritë Kryesore**
+Serveri mund të refuzojë lidhjet e reja nëse numri i lidhjeve aktive kalon një prag të caktuar. Nëse një klient nuk dërgon kërkesa brenda një periudhe të caktuar kohe, lidhja mbyllet automatikisht. Serveri ruan statistika si numrin e lidhjeve aktive, mesazhet e pranuara për secilin klient, dhe trafikun e dërguar/pranuar në bytes.
 
-Server TCP me multi-threading
+Klienti krijon një lidhje TCP me serverin duke specifikuar IP dhe portin. Klientët me privilegje të plotë mund të ekzekutojnë komandat /upload, /download, /delete, /list, /read, /info, dhe /search, ndërsa klientët read-only kanë akses vetëm për lexim dhe informacion. Mesazhet e dërguara pa komandë / regjistrohen dhe echohen nga serveri. Koha e përgjigjes për klientët full është më e shpejtë se për klientët read-only.
 
-Autentifikim me username/password
-
-Role përdoruesish (full dhe read)
-
-Menaxhim skedarësh: upload, download, read, delete, info, search, list
-
-Statistika të serverit në kohë reale
-
-Klient normal dhe klient administrativ
-
-Logim mesazhesh, timeout dhe kontroll i ngarkesës
-
-**1. Startimi i Serverit**
-
-python server.py 
-
-**2. Autentifikimi dhe Rolet**
-
-Autentifikimi bëhet me komandën:
-
-HELLO <username> <password>
-
-
-Roli caktohet automatikisht nga serveri:
-
-full – akses i plotë mbi skedarët
-
-read – vetëm lexim dhe informacion
-
-**3. Klienti Normal**
-
-Startohet me:
-
-python client.py --host 127.0.0.1 --port 9000 --user device2 --password pass2
-
-python client.py --host 127.0.0.1 --port 9000 --user device3 --password pass3
-
-python client.py --host 127.0.0.1 --port 9000 --user device4 --password pass4
-
-Komandat për të gjithë përdoruesit
-
-/list               – liston skedarët në server
-
-/read <file>        – lexon përmbajtjen e skedarit
-
-/info <file>        – jep madhësinë dhe datën e krijimit/modifikimit
-
-/search <keyword>   – kërkon skedarë sipas fjalës kyçe
-
-Komandat për rolin FULL
-
-/upload <file>      – ngarkon një skedar në server
-
-/download <file>    – shkarkon një skedar nga serveri
-
-/delete <file>      – fshin një skedar nga serveri
-
-Statistikat e serverit
-
-STATS               – shfaq statistika të serverit në kohë reale
-
-**4. Klienti Administrativ**
-
-Startohet me:
-
-python admin_client.py --host 127.0.0.1 --port 9000 --user device1 --password pass1
+Struktura e projektit përfshin skriptat server.py dhe client.py, një folder për ruajtjen e skedarëve, një file për përdoruesit dhe rolet e tyre (users.json), një file për statistikat (server_stats.txt) dhe një file për logun e mesazheve (messages.log). Të dy skriptat duhet të jenë të pranishëm për ekzekutim dhe funksionim të plotë të sistemit.
 
