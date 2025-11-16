@@ -1,4 +1,9 @@
-import socket, argparse, json, os, time
+import socket
+import argparse
+import json
+import os
+import time
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--host', required=True)
@@ -7,14 +12,25 @@ parser.add_argument('--user', required=True)
 parser.add_argument('--password', required=True)
 args = parser.parse_args()
 
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((args.host, args.port))
 s.sendall(f"HELLO {args.user} {args.password}\n".encode())
-welcome = s.recv(4096).decode()
-print(welcome.strip())
 
 
-if "full" in welcome.lower():
+welcome = b""
+while True:
+    chunk = s.recv(4096)
+    if not chunk:
+        break
+    welcome += chunk
+    if b'WELCOME' in welcome:
+        break
+
+welcome_clean = welcome.decode(errors='ignore').replace("\r", "").strip()
+print(welcome_clean)
+
+if "full" in welcome_clean.lower():
     role = "full"
 else:
     role = "read"
@@ -35,12 +51,15 @@ def receive_line(sock, timeout=10):
             return line
     return data
 
+
 try:
     while True:
         try:
             cmd = input("ADMIN> ").strip()
             if not cmd:
                 continue
+
+
             if cmd.startswith('/upload'):
                 parts = cmd.split(maxsplit=1)
                 if len(parts) < 2:
@@ -74,6 +93,8 @@ try:
                 final = s.recv(4096)
                 if final:
                     print(final.decode(errors='ignore'))
+
+
             elif cmd.startswith('/download'):
                 parts = cmd.split(maxsplit=1)
                 if len(parts) < 2:
@@ -86,7 +107,7 @@ try:
                 if not meta_line:
                     print("No response from server.")
                     continue
-                meta_line = meta_line.decode()
+                meta_line = meta_line.decode(errors='ignore')
                 if meta_line.startswith("ERROR"):
                     print(meta_line)
                     continue
@@ -114,8 +135,9 @@ try:
                     with open(out_path, 'wb') as f:
                         f.write(received)
                     print(f"Downloaded {out_path} ({len(received)} bytes)")
-            else:
 
+
+            else:
                 s.sendall((cmd + '\n').encode())
 
                 timeout = 0.5 if role == "full" else 2.0
@@ -123,7 +145,6 @@ try:
                 data = b''
 
                 while True:
-
                     if time.time() - start_time > timeout:
                         break
                     try:
@@ -131,35 +152,17 @@ try:
                         if not chunk:
                             break
                         data += chunk
-
                         if len(chunk) < 4096:
                             break
                     except BlockingIOError:
-
                         time.sleep(0.05)
                         continue
 
                 if data:
                     print(data.decode(errors='ignore'))
+
         except KeyboardInterrupt:
             break
-finally:
-    s.close()
 
-try:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("127.0.0.1", 9000))
-    s.send(b"Hello from admin client!")
-    response = s.recv(4096)
-    if response:
-        print(response.decode())
-    else:
-        print("Server closed the connection without response.")
-except ConnectionAbortedError:
-    print("Connection aborted. The server or system closed the connection.")
-except ConnectionResetError:
-    print("Connection reset by server.")
-except Exception as e:
-    print("Unexpected error:", e)
 finally:
     s.close()

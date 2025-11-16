@@ -7,11 +7,11 @@ import time
 from pathlib import Path
 from datetime import datetime, timezone
 
-# Configurable variables (pika 1)
+
 HOST = '0.0.0.0'      
 PORT = 9000            
-MAX_CONNECTIONS = 10   # maksimumi i lidhjeve aktive
-IDLE_TIMEOUT = 120     # sekonda pa aktivitet -> mbyll lidhjen
+MAX_CONNECTIONS = 10
+IDLE_TIMEOUT = 120
 STATS_SAVE_INTERVAL = 10
 STORAGE_DIR = Path('server_storage')
 USERS_FILE = Path('users.json')
@@ -172,7 +172,7 @@ def client_thread(conn, addr):
             'msgs': 0,
             'bytes_recv': 0,
             'bytes_sent': 0,
-            'has_sent_request': False  # <-- Flag per me kontrollu nese klienti ka bo tpakten nje kerkese
+            'has_sent_request': False
         }
     try:
         send_response(conn, b"HELLO? Send: HELLO user pass\n")
