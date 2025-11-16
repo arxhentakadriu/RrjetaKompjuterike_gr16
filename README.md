@@ -40,7 +40,9 @@ read – vetëm lexim dhe informacion
 Startohet me:
 
 python client.py --host 127.0.0.1 --port 9000 --user device2 --password pass2
+
 python client.py --host 127.0.0.1 --port 9000 --user device3 --password pass3
+
 python client.py --host 127.0.0.1 --port 9000 --user device4 --password pass4
 
 Komandat për të gjithë përdoruesit
