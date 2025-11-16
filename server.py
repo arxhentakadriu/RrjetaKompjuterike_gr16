@@ -1,3 +1,4 @@
+
 import socket
 import threading
 import json
@@ -8,8 +9,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 
-HOST = '0.0.0.0'      
-PORT = 9000            
+HOST = '0.0.0.0'
+PORT = 9000
 MAX_CONNECTIONS = 10
 IDLE_TIMEOUT = 120
 STATS_SAVE_INTERVAL = 10
@@ -129,7 +130,7 @@ def handle_upload(conn, filename):
             return "Upload failed: no metadata received."
         meta = json.loads(meta_line.decode())
         size = int(meta.get('size', 0))
-      
+
         send_response(conn, b"READY_DATA\n")
         file_bytes = receive_all(conn, size)
         if len(file_bytes) < size:
@@ -161,7 +162,7 @@ def handle_download(conn, filename):
         send_response(conn, f"ERROR during download: {e}\n".encode())
 
 def client_thread(conn, addr):
- 
+
     conn.settimeout(1.0)
     with lock:
         clients[conn] = {
@@ -240,7 +241,7 @@ def client_thread(conn, addr):
                 args = parts[1:]
                 with lock:
                     role = clients[conn]['role']
-               
+
                 if role != 'full' and cmd not in ['/list', '/read', '/search', '/info']:
                     send_response(conn, b"ERROR: permission denied\n")
                     continue
@@ -317,7 +318,7 @@ def accept_loop(sock):
         t.start()
 
 def admin_console():
-       while True:
+    while True:
         try:
             cmd = input()
         except EOFError:
@@ -345,4 +346,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
