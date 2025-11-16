@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 # Configurable variables (pika 1)
-HOST = '127.0.0.1'      
+HOST = '0.0.0.0'      
 PORT = 9000            
 MAX_CONNECTIONS = 10   # maksimumi i lidhjeve aktive
 IDLE_TIMEOUT = 120     # sekonda pa aktivitet -> mbyll lidhjen
