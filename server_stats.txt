@@ -1,0 +1,9 @@
+{
+  "timestamp": "2025-11-16T18:44:09.316884+00:00",
+  "active_connections": 0,
+  "active_clients": {},
+  "messages_per_client": {},
+  "total_bytes_received": 0,
+  "total_bytes_sent": 0,
+  "has_sent_request": {}
+}
